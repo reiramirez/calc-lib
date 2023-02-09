@@ -2,8 +2,8 @@
 
 namespace calc_lib
 {
-    public class Calculations
+    public class Algebra
     {
-
+        
     }
 }
