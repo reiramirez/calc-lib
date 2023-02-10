@@ -266,13 +266,9 @@ namespace calc_lib
         public static List<int> PrimeFactorization(int number)
         {
             // To get all the prime factors of a number, we need to get creative.
-            // If the number is 0, there are no factors. Return an empty list.
-            if (number == 0)
+            // If the number is 0 or 1, there are no prime factors. Return an empty list.
+            if (number == 0 || number == 1)
                 return new List<int>();
-
-            // If the number is 1, return a new list with itself as the factor.
-            if (number == 1)
-                return new List<int>(new int[] { 1 });
 
             var factors = new List<int>();
 
@@ -296,7 +292,10 @@ namespace calc_lib
             }
 
             // Finally, if the number is not equal to 1, it must be the last number.
-            // This is because we will always be left with a number not equal to 1, which is the last factor.
+            // i.e. given the number 4, which has the prime factors of 2, and 2:
+            // 4 / 2 = 2, even
+            // 2 / 2 = 1, odd
+            // Since we are left with 1, we do not include it in the factors.
             //
             // i.e. given the number 108, which has the prime factors of 2, 2, 3, 3, and 3:
             // 108 / 2 = 54, even
