@@ -63,25 +63,25 @@ namespace calc_lib
             }
 
             // If still not, find the factors of the numerator,
-            var factors_of_numerator = PrimeFactorization(fraction.numerator);
+            var factorsOfNumerator = PrimeFactorization(fraction.numerator);
 
             // and the denominator,
-            var factors_of_denominator = PrimeFactorization(fraction.denominator);
+            var factorsOfDenominator = PrimeFactorization(fraction.denominator);
 
             // then sort both lists in descending order.
-            factors_of_numerator.Sort((x, y) => y.CompareTo(x));
-            factors_of_denominator.Sort((x, y) => y.CompareTo(x));
+            factorsOfNumerator.Sort((x, y) => y.CompareTo(x));
+            factorsOfDenominator.Sort((x, y) => y.CompareTo(x));
 
             // then check each factor of the numerator to see if the factors of the denominator contain it.
             // By sorting both lists in descending order, we make sure that the greatest common factor (GCF) is found first.
-            foreach (var numerator_factor in factors_of_numerator)
+            foreach (var numeratorFactor in factorsOfNumerator)
             {
-                foreach (var denominator_factor in factors_of_denominator)
+                foreach (var denominatorFactor in factorsOfDenominator)
                 {
-                    if (numerator_factor == denominator_factor)
+                    if (numeratorFactor == denominatorFactor)
                     {
-                        fraction.numerator /= numerator_factor;
-                        fraction.denominator /= denominator_factor;
+                        fraction.numerator /= numeratorFactor;
+                        fraction.denominator /= denominatorFactor;
 
                         // Perform the whole method recursively to further simplify the fraction.
                         return SimplifyFraction(fraction);
@@ -143,6 +143,25 @@ namespace calc_lib
 
             // Then we simplify reuse our existing MultiplyFractions function to multiply the two fractions.
             return MultiplyFractions(f1, f2);
+        }
+        #endregion
+        #region Decimal rounding
+        public static int RoundDecimal(int left, int right)
+        {
+            // To round decimals, we simply check if the number to the right of the decimal point starts with a 5 or higher.
+            // To do that, we first divide that number by 10 until we get a value less than 10.
+            // That is the first digit to the right of the decimal point.
+            while (right >= 10)
+            {
+                right /= 10;
+            }
+
+            // If the number to the right of the decimal point starts with a 5 or higher, return the digit left of the decimal point plus 1.
+            // If not, simply return the digit left of the decimal point.
+            if (right >= 5)
+                return left + 1;
+            else
+                return left;
         }
         #endregion
 
