@@ -262,38 +262,85 @@ namespace calc_lib
          * - Newton's approximation method for the inverse square root
          * - Quake3D's fast inverse square root (just as an example)
          */
-
-        #region NO LOOKING UNDER HERE
+        #region Prime factorization
         public static List<int> PrimeFactorization(int number)
         {
-            var n = number;
+            // To get all the prime factors of a number, we need to get creative.
+            // If the number is 0, there are no factors. Return an empty list.
+            if (number == 0)
+                return new List<int>();
+
+            // If the number is 1, return a new list with itself as the factor.
+            if (number == 1)
+                return new List<int>(new int[] { 1 });
+
             var factors = new List<int>();
 
-            // If the number is 0, there are no factors. Return an empty list.
-            if (n == 0)
-                return factors;
+            // First, we check if 2 is a factor of the number. If so, divide the number by 2 and add 2 as a factor. Repeat until 2 is no longer a factor of the number.
+            number = ExtractFactors(factors, 2, number);
 
-            // Check if 2 is a factor of n. If so, divide n by 2 and add 2 as a factor. Repeat until 2 is no longer a factor of n.
-            while (n % 2 == 0)
+            // The number is now definitely odd. For each odd number starting from 3 to the square root of the number, perform the same check.
+            // This algorithm takes advantage of two things:
+            //      1. Since we extracted all possible 2s from the number, the number will always be odd. Hence, we only need to check for odd factors.
+            //      2. Since we are going through numbers in ascending order, and the number is always decreasing, we will come to a point where the
+            //         largest possible factor to extract would be two instances of the same factor, i.e. that factor squared. An example of this is
+            //         the number 289, where the 2 possible prime factors are only 17 and 17, and 17 is the square root of 289.
+            // We can further shorten the code by starting the for-loop at 2, but we will be doing an "== 2" check for each number after 2, which will
+            // add processing time. That's why we extracted all possible 2s first.
+            for (var next = 3; next <= SquareRoot(number); next++)
             {
-                factors.Add(2);
-                n /= 2;
+                if (next % 2 == 0)
+                    continue;
+
+                number = ExtractFactors(factors, next, number);
             }
 
-            // n is now definitely odd. For each value starting from 3 to the square root of n, perform the same check.
-            for (var next = 3; next <= Math.Sqrt(n); next++)
-            {
-                while (n % next == 0)
-                {
-                    factors.Add(next);
-                    n /= next;
-                }
-            }
-
-            if (n > 2)
-                factors.Add(n);
+            // Finally, if the number is not equal to 1, it must be the last number.
+            // This is because we will always be left with a number not equal to 1, which is the last factor.
+            //
+            // i.e. given the number 108, which has the prime factors of 2, 2, 3, 3, and 3:
+            // 108 / 2 = 54, even
+            // 54 / 2 = 27, odd
+            // 27 / 3 = 9, odd
+            // 9 / 3 = 3, odd
+            // Since the square root of 3 = 1.7320508..., the for-loop breaks and we are left with 3.
+            // 
+            // i.e. given the number 396, which has the prime factors of 2, 2, 3, 3, and 11:
+            // 396 / 2 = 198, even
+            // 198 / 2 = 99, odd
+            // 99 / 3 = 33, odd
+            // 33 / 3 = 11, odd
+            // Since, the square root of 11 is 3.3166247..., the for-loop breaks and we are left with 11.
+            if (number != 1)
+                factors.Add(number);
 
             return factors;
+        }
+        // This is an extraction of reusable code. All it does is it extracts a given factor from the number until it's not possible anymore.
+        private static int ExtractFactors(List<int> factors, int factor, int number)
+        {
+            while (number % factor == 0)
+            {
+                factors.Add(factor);
+                number /= factor;
+            }
+
+            return number;
+        }
+        #endregion
+
+        #region NO LOOKING UNDER HERE
+        public static double SquareRoot(int num)
+        {
+            if (0 == num) { return 0; }  // Avoid zero divide  
+            int n = (num / 2) + 1;       // Initial estimate, never low  
+            int n1 = (n + (num / n)) / 2;
+            while (n1 < n)
+            {
+                n = n1;
+                n1 = (n + (num / n)) / 2;
+            } 
+            return n;
         }
         #endregion
     }
