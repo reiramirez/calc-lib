@@ -12,9 +12,8 @@ namespace calc_lib
          * - Basic integer operations (done)
          * - Basic fraction operations (done)
          * - Decimal rounding (done)
-         * - Mean, median, and mode
+         * - Mean, median, and mode (done)
          */
-
         #region Basic integer operations
         public static int Add(int x, int y)
         {
