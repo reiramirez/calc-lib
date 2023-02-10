@@ -11,7 +11,7 @@ namespace calc_lib
          * 
          * - Basic integer operations (done)
          * - Basic fraction operations (done)
-         * - Decimal rounding
+         * - Decimal rounding (done)
          * - Mean, median, and mode
          */
 
@@ -165,6 +165,94 @@ namespace calc_lib
                 Left = decimalNumber.Right >= 5 ? decimalNumber.Left + 1 : decimalNumber.Left,
                 Right = 0
             };
+        }
+        #endregion
+        #region Mean, median, and mode
+        // The "params" keyword seen below indicates that this method takes a variable number of arguments.
+        // To be able to use the params keyword, the parameter following it must be a one-dimensional array of any type.
+        // i.e. "params int[] numbers" means that the "numbers" variable is a one-dimensional array of ints.
+        // You can invoke functions with "params" with any number of arguments (even none!).
+        // You can also add more arguments, but the "params" argument must always be last.
+        public static decimal Mean(params int[] numbers)
+        {
+            // To get the mean (or average) of any set of numeric values, first we add them all up.
+            var sum = 0;
+            foreach (var number in numbers)
+                sum += number;
+
+            // To maintain accuracy, we convert the sum from an int to a decimal.
+            var decimalSum = (decimal)sum;
+
+            // Then we divide the sum by the number of values in the set and return the result.
+            return decimalSum / numbers.Length;
+        }
+        public static decimal Median(params int[] numbers)
+        {
+            // To get the median of any set of numeric values, first we sort the numbers in ascending order.
+            // To do that, we first have to convert it into a list.
+            var numberList = new List<int>(numbers);
+
+            // Then we sort the list. By default, List.Sort() sorts in ascending order.
+            numberList.Sort();
+
+            // Then, we check the length of the list.
+            // If the length is odd, we simply return the middle value.
+            if (numberList.Count % 2 == 1)
+                // Since we are dividing two ints, the "smaller half" of the quotient is returned,
+                // i.e. given two ints 5 and 2, 5 / 2 would return 2.
+                return numberList[numberList.Count / 2];
+
+            // if the length is even, we return the mean of the two middle terms.
+            else
+            {
+                // In programming, array (and by extension, list) indexes always start from 0.
+                // That means that by dividing the list's length by two, we are getting the right-most index.
+                // i.e. given the following array with indexes indicated: [0] [1] [2] [3] with length 4
+                // If we divide 4 by 2, we get 2.   That corresponds to this index ^
+                var rightMiddleIndex = numberList.Count / 2;
+
+                // To get the left middle index, we simply subtract 1 from the right middle index.
+                var leftMiddleIndex = rightMiddleIndex - 1;
+
+                return Mean(numberList[leftMiddleIndex], numberList[rightMiddleIndex]);
+            }
+        }
+        // This method returns an "int?". The "?" operator, also called the optional operator, means that the value may be nullable.
+        // The optional operator is only used for values that cannot be null by default.
+        // This allows us to return a null value for a previously-not-nullable type, like int.
+        public static int? Mode(params int[] numbers)
+        {
+            // To get the mode of any set of numeric values, we simply count the amount of times each number appears in the set.
+            // We can do this using a Dictionary storing the each number and the amount of times it appeared in the set.
+            var numberDictionary = new Dictionary<int, int>();
+
+            // We loop through each number and...
+            foreach (var number in numbers)
+            {
+                // If it doesn't exist in our dictionary, we add it and assign it a value of 1.
+                if (!numberDictionary.ContainsKey(number))
+                    numberDictionary.Add(number, 1);
+
+                // If it already exists, we simply add 1 to its value.
+                else
+                    numberDictionary[number]++;
+            }
+
+            // Then, we turn the dictionary into a list of entries. We can simply use the constructor because Dictionary implements IEnumerable.
+            var numberEntryList = new List<KeyValuePair<int, int>>(numberDictionary);
+
+            // We then sort the entries by value in descending order.
+            numberEntryList.Sort((keyValuePair1, keyValuePair2) => keyValuePair2.Value.CompareTo(keyValuePair1.Value));
+
+            // Finally, we get the first entry in the now-sorted list.
+            // If the entry's value is 1, we can assume that all numbers appeared once
+            // and we return null because there is no mode.
+            if (numberEntryList[0].Value == 1)
+                return null;
+
+            // Otherwise, we return the key of the first entry.
+            else
+                return numberEntryList[0].Key;
         }
         #endregion
 
