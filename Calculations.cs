@@ -260,7 +260,7 @@ namespace calc_lib
          * 
          * - Prime factorization (done)
          * - Babylonian method for getting square roots (done)
-         * - Quake3D's fast inverse square root (just as an example)
+         * - Quake 3's fast inverse square root (just as an example)
          */
         #region Prime factorization
         public static List<int> PrimeFactorization(int number)
