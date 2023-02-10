@@ -63,25 +63,25 @@ namespace calc_lib
             }
 
             // If still not, find the factors of the numerator,
-            var factors_of_numerator = PrimeFactorization(fraction.numerator);
+            var factorsOfNumerator = PrimeFactorization(fraction.numerator);
 
             // and the denominator,
-            var factors_of_denominator = PrimeFactorization(fraction.denominator);
+            var factorsOfDenominator = PrimeFactorization(fraction.denominator);
 
             // then sort both lists in descending order.
-            factors_of_numerator.Sort((x, y) => y.CompareTo(x));
-            factors_of_denominator.Sort((x, y) => y.CompareTo(x));
+            factorsOfNumerator.Sort((x, y) => y.CompareTo(x));
+            factorsOfDenominator.Sort((x, y) => y.CompareTo(x));
 
             // then check each factor of the numerator to see if the factors of the denominator contain it.
             // By sorting both lists in descending order, we make sure that the greatest common factor (GCF) is found first.
-            foreach (var numerator_factor in factors_of_numerator)
+            foreach (var numeratorFactor in factorsOfNumerator)
             {
-                foreach (var denominator_factor in factors_of_denominator)
+                foreach (var denominatorFactor in factorsOfDenominator)
                 {
-                    if (numerator_factor == denominator_factor)
+                    if (numeratorFactor == denominatorFactor)
                     {
-                        fraction.numerator /= numerator_factor;
-                        fraction.denominator /= denominator_factor;
+                        fraction.numerator /= numeratorFactor;
+                        fraction.denominator /= denominatorFactor;
 
                         // Perform the whole method recursively to further simplify the fraction.
                         return SimplifyFraction(fraction);
