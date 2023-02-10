@@ -9,5 +9,10 @@ namespace calc_lib.Models
         // This struct has properties that can be used like normal variables
         public int Left { get; set; }
         public int Right { get; set; }
+
+        public override string ToString()
+        {
+            return Left + "." + Right;
+        }
     }
 }

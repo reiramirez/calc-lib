@@ -146,22 +146,25 @@ namespace calc_lib
         }
         #endregion
         #region Decimal rounding
-        public static int RoundDecimal(int left, int right)
+        public static DecimalNumber RoundDecimal(DecimalNumber decimalNumber)
         {
             // To round decimals, we simply check if the number to the right of the decimal point starts with a 5 or higher.
             // To do that, we first divide that number by 10 until we get a value less than 10.
             // That is the first digit to the right of the decimal point.
-            while (right >= 10)
+            while (decimalNumber.Right >= 10)
             {
-                right /= 10;
+                decimalNumber.Right /= 10;
             }
 
             // If the number to the right of the decimal point starts with a 5 or higher, return the digit left of the decimal point plus 1.
             // If not, simply return the digit left of the decimal point.
-            if (right >= 5)
-                return left + 1;
-            else
-                return left;
+            // The following statement uses an inline if statement, also called the "ternary conditional operator" or simply "?:".
+            return new DecimalNumber()
+            {
+                // The syntax of the "?:" operator is as follows: <condition> ? <value if true> : <value if false>
+                Left = decimalNumber.Right >= 5 ? decimalNumber.Left + 1 : decimalNumber.Left,
+                Right = 0
+            };
         }
         #endregion
 
