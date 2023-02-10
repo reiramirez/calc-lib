@@ -20,7 +20,7 @@ namespace calc_lib
          * 2. Complex maths (if math is so good, why didn't they make a math 2?):
          * 
          * - Prime factorization
-         * - Newton's approximation method for the inverse square root
+         * - Babylonian method for getting square roots
          * - Quake3D's fast inverse square root (just as an example)
          * 
          * 3. Really complex maths (just two because they're really complicated):
