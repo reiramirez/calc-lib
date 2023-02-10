@@ -359,6 +359,35 @@ namespace calc_lib
             return root;
         }
         #endregion
+        #region Quake 3's fast inverse square root
+        public static float Q_rsqrt(float number)
+        {
+            // This is Quake III's "fast inverse square root" algorithm, written in C back in 1999. At the time,
+            // it was the fastest algorithm available at the time for computing the inverse square root of a 
+            // given number n, i.e. 1/(n^2). It combines some calculus (Newton's method of approximation) with
+            // some "hacky" memory address and bit manipulation. Nowadays, it's considered quite slow.
+            //
+            // I tried to keep this as "verbatim" as possible. Had to clean up the original comments, of course.
+            // The "floating point bit level hacking" trick is not really recommended in C# (it wasn't really
+            // recommended back then either), so I had to improvise with C#'s bit conversion tools. It doesn't
+            // work with pointers like it used to for C. However, the bit shifting trick still works
+            // just as well in C# as it did in good old C.
+
+            int i;
+            float x2, y;
+            const float threehalfs = 1.5F;
+
+            x2 = number * 0.5F;
+            y = number;
+            i = BitConverter.SingleToInt32Bits(y);      // evil floating point bit level hacking
+            i = 0x5f3759df - (i >> 1);                  // what the f***?
+            y = BitConverter.Int32BitsToSingle(i);
+            y = y * (threehalfs - (x2 * y * y));        // 1st iteration
+        //	y = y * ( threehalfs - ( x2 * y * y ) );    // 2nd iteration, this can be removed
+
+            return y;
+        }
+        #endregion
 
         #region NO LOOKING UNDER HERE
         #endregion
