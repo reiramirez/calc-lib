@@ -92,6 +92,58 @@ namespace calc_lib
             // Finally, if still not, then it's as simple as it can be.
             return fraction;
         }
+        public static Fraction AddFractions(Fraction f1, Fraction f2)
+        {
+            // To add fractions, we first make both fractions have the same denominator.
+            // This is easily achieved by multiplying both fractions' numerators by each other's denominators.
+            if (f1.denominator != f2.denominator)
+            {
+                f1.numerator *= f2.denominator;
+                f2.numerator *= f1.denominator;
+            }
+
+            // Then, we create a new fraction with the added numerators as the new numerator,
+            // and the product of both denominators as the new denominator.
+            var result = new Fraction(f1.numerator + f2.numerator, f1.denominator * f2.denominator);
+
+            // Then we simplify the fraction and return it as a result.
+            return SimplifyFraction(result);
+        }
+        public static Fraction SubtractFractions(Fraction f1, Fraction f2)
+        {
+            // To subtract fractions, we first make both fractions have the same denominator.
+            // This is easily achieved by multiplying both fractions' numerators by each other's denominators.
+            if (f1.denominator != f2.denominator)
+            {
+                f1.numerator *= f2.denominator;
+                f2.numerator *= f1.denominator;
+            }
+
+            // Then, we create a new fraction with the subtracted numerators as the new numerator,
+            // and the product of both denominators as the new denominator.
+            var result = new Fraction(f1.numerator - f2.numerator, f1.denominator * f2.denominator);
+
+            // Then we simplify the fraction and return it as a result.
+            return SimplifyFraction(result);
+        }
+        public static Fraction MultiplyFractions(Fraction f1, Fraction f2)
+        {
+            // To multiply fractions, we first create a new fraction with the product of both numerators as the new numerator,
+            var result = new Fraction(f1.numerator * f2.numerator, f1.denominator * f2.denominator);
+
+            // Then we simplify the fraction and return it as a result.
+            return SimplifyFraction(result);
+        }
+        public static Fraction DivideFractions(Fraction f1, Fraction f2)
+        {
+            // To divide fractions, we first flip the terms of the second fraction.
+            f2.numerator += f2.denominator;                 // Add x and y together into "new x"
+            f2.denominator = f2.numerator - f2.denominator; // Now that "new x" = x + y, remove y from "new x" to get x
+            f2.numerator -= f2.denominator;                 // Finally, now that y = x, remove x from "new x" to get y
+
+            // Then we simplify reuse our existing MultiplyFractions function to multiply the two fractions.
+            return MultiplyFractions(f1, f2);
+        }
         #endregion
 
         #region NO LOOKING UNDER HERE
