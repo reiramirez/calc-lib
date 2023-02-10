@@ -328,20 +328,39 @@ namespace calc_lib
         }
 
         #endregion
+        #region Babylonian method for getting square roots
+        public static decimal SquareRoot(long num)
+        {
+            // The Babylonian method for finding the square root of a number involves an initial approximation followed by an iterative algorithm.
+            // To start, we return 0 if the number is 0, to prevent division with zero.
+            if (num == 0)
+                return 0;
+
+            // Next, we define a precision. Once the relative error between the root and the estimate is less than this value,
+            // we can stop the calculation. For the purposes of demonstration, we set our current precision at a modest value.
+            decimal precision = 0.0001m;
+
+            // Next, we define a starting value for our estimate. A good starting estimate would be half the original number.
+            decimal estimate = (num / 2) + 1;
+
+            // Finally, we set the initial value of our root as the number itself.
+            decimal root = num;
+            do
+            {
+                // Now we get the average of the running estimate and the result, and put it back into the result.
+                root = (root + estimate) / 2;
+
+                // Then we improve our estimate by getting the ratio between the original number and our current root value.
+                estimate = num / root;
+            }
+            // We repeat the last two steps until we achieve our desired precision.
+            while (root - estimate > precision);
+
+            return root;
+        }
+        #endregion
 
         #region NO LOOKING UNDER HERE
-        public static double SquareRoot(int num)
-        {
-            if (0 == num) { return 0; }  // Avoid zero divide  
-            int n = (num / 2) + 1;       // Initial estimate, never low  
-            int n1 = (n + (num / n)) / 2;
-            while (n1 < n)
-            {
-                n = n1;
-                n1 = (n + (num / n)) / 2;
-            } 
-            return n;
-        }
         #endregion
     }
 }
