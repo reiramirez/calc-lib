@@ -255,6 +255,14 @@ namespace calc_lib
         }
         #endregion
 
+        /*
+         * 2. Complex maths (if math is so good, why didn't they make a math 2?):
+         * 
+         * - Prime factorization
+         * - Newton's approximation method for the inverse square root
+         * - Quake3D's fast inverse square root (just as an example)
+         */
+
         #region NO LOOKING UNDER HERE
         public static List<int> PrimeFactorization(int number)
         {
