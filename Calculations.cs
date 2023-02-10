@@ -259,7 +259,7 @@ namespace calc_lib
          * 2. Complex maths (if math is so good, why didn't they make a math 2?):
          * 
          * - Prime factorization (done)
-         * - Babylonian method for getting square roots
+         * - Babylonian method for getting square roots (done)
          * - Quake3D's fast inverse square root (just as an example)
          */
         #region Prime factorization
