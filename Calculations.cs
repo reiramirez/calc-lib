@@ -10,7 +10,7 @@ namespace calc_lib
          * 1. Basic maths (baby mode):
          * 
          * - Basic integer operations (done)
-         * - Basic fraction operations
+         * - Basic fraction operations (done)
          * - Decimal rounding
          * - Mean, median, and mode
          */
