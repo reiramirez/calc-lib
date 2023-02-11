@@ -23,11 +23,6 @@ namespace calc_lib
          * - Babylonian method for getting square roots
          * - Quake3D's fast inverse square root (just as an example)
          * 
-         * 3. Really complex maths (just two because they're really complicated):
-         * 
-         * - Quadratic equations
-         * - Solving linear systems of equations by substitution
-         * 
          */
     }
 }
